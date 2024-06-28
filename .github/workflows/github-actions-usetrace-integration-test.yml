@@ -1,0 +1,16 @@
+name: Invoke a test on push to development branch
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  invoke-usetrace-webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call fake replacement for Usetrace API
+        run: |
+          curl -X GET \
+               -H "Content-Type: application/json" \
+               https://jsonplaceholder.typicode.com/todos/1
