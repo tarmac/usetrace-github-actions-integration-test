@@ -6,36 +6,6 @@ on:
       - development
 
 jobs:
-  invoke-usetrace-webhook:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call external API
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const response = await github.request('POST https://api.usetrace.com/api/trace/ZoMfAR6weAAXXcb3jfGGG9QPEvnsqBMZ/execute', {
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              data: {
-                "requiredCapabilities": [
-                  {
-                    "browserName": "chrome"
-                  }
-                ],
-                "reporters": [
-                  {
-                    "webhook": {
-                      "url": "https://usetrace.free.beeceptor.com",
-                      "when": "always"
-                    }
-                  }
-                ]
-              },
-            });
-            console.log(`Response status: ${response.status}`);
-            console.log('Response body:', response.data);
-
   call-endpoint-action:
     runs-on: ubuntu-latest
     steps:
@@ -60,12 +30,3 @@ jobs:
               }
             ]
           }'
-
-  invoke-usetrace-webhook2:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call fake replacement for Usetrace API
-        run: |
-          curl -X GET \
-               -H "Content-Type: application/json" \
-               https://jsonplaceholder.typicode.com/todos/1
