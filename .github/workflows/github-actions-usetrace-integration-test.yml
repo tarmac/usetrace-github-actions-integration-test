@@ -6,27 +6,59 @@ on:
       - development
 
 jobs:
-  call-endpoint-action:
+  test-usetrace-webhook:
     runs-on: ubuntu-latest
     steps:
-      - name: Call API using HTTP client action
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: 'https://api.usetrace.com/api/trace/ZoMfAR6weAAXXcb3jfGGG9QPEvnsqBMZ/execute'
-          method: 'POST'
-          contentType: 'application/json'
-          data: '{
-            "requiredCapabilities": [
-              {
-                "browserName": "chrome"
-              }
-            ],
-            "reporters": [
-              {
-                "webhook": {
-                  "url": "https://usetrace.free.beeceptor.com",
-                  "when": "always"
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Trigger Usetrace Webhook and Poll Status
+      uses: actions/github-script@v6
+      env:
+        USETRACE_API_KEY: ${{ secrets.USETRACE_API_KEY }}
+        WEBHOOK_URL: ${{ vars.USETRACE_WEBHOOK_URL }}
+        TRACE_ID: ${{ vars.USETRACE_TRACE_ID }}
+      with:
+        script: |
+          const { pollStatus } = require('./usetrace-utils.js');
+          
+          try {
+            const response = await github.request('POST https://api.usetrace.com/api/trace/{trace_id}/execute', {
+              trace_id: process.env.TRACE_ID,
+              headers: {
+                'Authorization': `Bearer ${process.env.USETRACE_API_KEY}`,
+                'Content-Type': 'application/json'
+              },
+              requiredCapabilities: [
+                { browserName: "chrome" }
+              ],
+              reporters: [
+                {
+                  webhook: {
+                    url: process.env.WEBHOOK_URL,
+                    when: "always"
+                  }
                 }
-              }
-            ]
-          }'
+              ]
+            });
+            
+            console.log('Webhook triggered successfully');
+            console.log('Response status:', response.status);
+            console.log('Response data:', response.data);
+            
+            if (response.data && response.data.id) {
+              console.log('Polling for build status...');
+              const finalStatus = await pollStatus(github, response.data.id, process.env.USETRACE_API_KEY);
+              console.log('Final build status:', finalStatus);
+            } else {
+              console.error('No build ID returned from execute command');
+              core.setFailed('No build ID returned');
+            }
+          } catch (error) {
+            console.error('Error:', error.message);
+            core.setFailed('Action failed');
+          }
+
+    - name: Check Webhook Response
+      run: |
+        echo "Webhook triggered and status polled. Check the action logs for details."
