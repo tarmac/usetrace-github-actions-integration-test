@@ -6,79 +6,18 @@ on:
       - development
 
 jobs:
-  test-usetrace-webhook:
+  test-usetrace-action:
     runs-on: ubuntu-latest
     steps:
-    - name: Trigger Usetrace Webhook and Poll Status
-      uses: actions/github-script@v6
-      env:
-        USETRACE_API_KEY: ${{ secrets.USETRACE_API_KEY }}
-        WEBHOOK_URL: ${{ vars.USETRACE_WEBHOOK_URL }}
-        TRACE_ID: ${{ vars.USETRACE_TRACE_ID }}
-      with:
-        script: |
-         const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-          async function pollStatus(octokit, buildId, apiKey) {
-            while (true) {
-              try {
-                const statusResponse = await octokit.request('GET https://api.usetrace.com/api/build/{build_id}/status', {
-                  build_id: buildId,
-                  headers: {
-                    'Authorization': `Bearer ${apiKey}`
-                  }
-                });
-                
-                if (statusResponse.status !== 404) {
-                  console.log('Build status:', statusResponse.data);
-                  return statusResponse.data;
-                }
-              } catch (error) {
-                if (error.status !== 404) {
-                  throw error;
-                }
-              }
-              
-              await sleep(1000); // Wait for 1 second before next poll
-            }
-          }
-          
-          try {
-            const response = await github.request('POST https://api.usetrace.com/api/trace/{trace_id}/execute', {
-              trace_id: process.env.TRACE_ID,
-              headers: {
-                'Authorization': `Bearer ${process.env.USETRACE_API_KEY}`,
-                'Content-Type': 'application/json'
-              },
-              requiredCapabilities: [
-                { browserName: "chrome" }
-              ],
-              reporters: [
-                {
-                  webhook: {
-                    url: process.env.WEBHOOK_URL,
-                    when: "always"
-                  }
-                }
-              ]
-            });
-            
-            console.log('Webhook triggered successfully');
-            console.log('Response status:', response.status);
-            console.log('Response data:', response.data);
-            
-            if (response.data && response.data.id) {
-              console.log('Polling for build status...');
-              const finalStatus = await pollStatus(github, response.data.id, process.env.USETRACE_API_KEY);
-              console.log('Final build status:', finalStatus);
-            } else {
-              console.error('No build ID returned from execute command');
-              core.setFailed('No build ID returned');
-            }
-          } catch (error) {
-            console.error('Error:', error.message);
-            core.setFailed('Action failed');
-          }
+    - name: Run Usetrace Webhook and Status Action
+      uses: tarmac/usetrace-github-action@v1
+      with:
+        usetrace-api-key: ${{ secrets.USETRACE_API_KEY }}
+        trace-id: ${{ vars.USETRACE_TRACE_ID }}
+        webhook-url: ${{ vars.USETRACE_WEBHOOK_URL }}
 
     - name: Check Webhook Response
       run: |
