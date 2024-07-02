@@ -9,9 +9,6 @@ jobs:
   test-usetrace-webhook:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
     - name: Trigger Usetrace Webhook and Poll Status
       uses: actions/github-script@v6
       env:
@@ -20,7 +17,31 @@ jobs:
         TRACE_ID: ${{ vars.USETRACE_TRACE_ID }}
       with:
         script: |
-          const { pollStatus } = require('./usetrace-utils.js');
+         const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+          async function pollStatus(octokit, buildId, apiKey) {
+            while (true) {
+              try {
+                const statusResponse = await octokit.request('GET https://api.usetrace.com/api/build/{build_id}/status', {
+                  build_id: buildId,
+                  headers: {
+                    'Authorization': `Bearer ${apiKey}`
+                  }
+                });
+                
+                if (statusResponse.status !== 404) {
+                  console.log('Build status:', statusResponse.data);
+                  return statusResponse.data;
+                }
+              } catch (error) {
+                if (error.status !== 404) {
+                  throw error;
+                }
+              }
+              
+              await sleep(1000); // Wait for 1 second before next poll
+            }
+          }
           
           try {
             const response = await github.request('POST https://api.usetrace.com/api/trace/{trace_id}/execute', {
