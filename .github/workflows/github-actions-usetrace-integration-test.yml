@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Run Usetrace Webhook and Status Action
-      uses: tarmac/usetrace-github-action@v1
+      uses: tarmac/usetrace-github-action@v1.0.0
       with:
         usetrace-api-key: ${{ secrets.USETRACE_API_KEY }}
         trace-id: ${{ vars.USETRACE_TRACE_ID }}
