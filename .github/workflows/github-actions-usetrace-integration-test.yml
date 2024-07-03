@@ -20,7 +20,7 @@ jobs:
 
     - name: Check Trace execution result
       env:
-        BUILD_ID: ${{ steps.executeTrace.outputs.buildId }}
+        BUILD_ID: ${{ steps.executeTrace.outputs.id }}
         STATUS: ${{ steps.executeTrace.outputs.status }}
         RESULT_REQUEST: ${{ steps.executeTrace.outputs.request }}
         RESULT_FINISH: ${{ steps.executeTrace.outputs.finish }}
