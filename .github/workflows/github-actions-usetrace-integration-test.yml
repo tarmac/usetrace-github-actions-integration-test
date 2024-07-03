@@ -17,6 +17,9 @@ jobs:
       uses: tarmac/usetrace-github-action@v1
       with:
         trace-id: ${{ vars.USETRACE_TRACE_ID }}
+        test: |
+          - something
+          - somethingElse
 
     - name: Check Trace execution result
       env:
