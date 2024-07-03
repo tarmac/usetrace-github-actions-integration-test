@@ -20,6 +20,11 @@ jobs:
 
     - name: Check Trace execution result
       env:
-        TRACE_RESULT: ${{ steps.executeTrace.outputs }}
+        BUILD_ID: ${{ steps.executeTrace.outputs.buildId }}
+        STATUS: ${{ steps.executeTrace.outputs.status
+        RESULT_REQUEST: ${{ steps.executeTrace.outputs.request
+        RESULT_FINISH: ${{ steps.executeTrace.outputs.finish
+        RESULT_PASS: ${{ steps.executeTrace.outputs.pass
+        RESULT_FAIL: ${{ steps.executeTrace.outputs.fail
       run: |
-        echo "Trace result: $TRACE_RESULT"
+        echo "Trace result: $BUILD_ID $STATUS $RESULT_REQUEST $RESULT_FINISH $RESULT_PASS $RESULT_FAIL "
