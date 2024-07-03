@@ -1,4 +1,4 @@
-name: Invoke a test on push to development branch
+name: Invoke a Trace on Usetrace on push to development branch
 
 on:
   push:
@@ -12,13 +12,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Run Usetrace Webhook and Status Action
+    - name: Run Usetrace Trace and Wait for it to finish
+      id: executeTrace
       uses: tarmac/usetrace-github-action@v1
       with:
-        usetrace-api-key: ${{ secrets.USETRACE_API_KEY }}
         trace-id: ${{ vars.USETRACE_TRACE_ID }}
-        webhook-url: ${{ vars.USETRACE_WEBHOOK_URL }}
 
-    - name: Check Webhook Response
+    - name: Check Trace execution result
+      env:
+        TRACE_RESULT: ${{ steps.executeTrace.outputs }}
       run: |
-        echo "Webhook triggered and status polled. Check the action logs for details."
+        echo "Trace result: $TRACE_RESULT"
