@@ -16,10 +16,13 @@ jobs:
       id: executeTrace
       uses: tarmac/usetrace-github-action@v1
       with:
-        trace-id: ${{ vars.USETRACE_TRACE_ID }}
+        trigger-type: ${{ vars.USETRACE_TRIGGER_TYPE }} # Options: 'trace', 'project' or 'tag')"
+        trigger-id: ${{ vars.USETRACE_TRIGGER_ID }} # Id of the build to trigger.
+
         test: |
           - something
           - somethingElse
+            parameter: nothing
 
     - name: Check Trace execution result
       env:
