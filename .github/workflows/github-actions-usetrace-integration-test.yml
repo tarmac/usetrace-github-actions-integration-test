@@ -32,5 +32,7 @@ jobs:
         RESULT_FINISH: ${{ steps.executeTrace.outputs.finish }}
         RESULT_PASS: ${{ steps.executeTrace.outputs.pass }}
         RESULT_FAIL: ${{ steps.executeTrace.outputs.fail }}
+        RESULT_REPORT: ${{ steps.executeTrace.outputs.report }}
       run: |
         echo "Trace result: $BUILD_ID $STATUS $RESULT_REQUEST $RESULT_FINISH $RESULT_PASS $RESULT_FAIL "
+        echo "REPORT: $RESULT_REPORT "
