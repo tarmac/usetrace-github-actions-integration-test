@@ -24,13 +24,9 @@ jobs:
         # Optional parameters
         browsers: chrome, firefox 127  # Coma separated list of browsers (ex: 'chrome, firefox'). You can specify a version of the browser this way: 'chrome 126, internet explorer 11' (version must be specified for internet explorer)
         baseUrl: https://de.wikipedia.org/ # baseUrl to execute against (defaults to the project baseUrl)"
-        parameters: TBD # Object trace parameters"
-        reporters: TBD2 # Webhook Check this article https://docs.usetrace.com/en/articles/6062297-webhooks"
-      
+
         # Project Only Optional (only if trigger-type: project)
         tags: someothertag, smoke, flaky # Coma separated list of tags. Only traces with those tags would be run (by default runs all traces)"
-        commit: abc123 # Hash of the commit leading to this build"
-        commitLink: https://gitgit.git/git/abc123 # Link to the commit"
 
     - name: Check Trace execution result
       env:
