@@ -27,7 +27,8 @@ jobs:
 
         # Project Only Optional (only if trigger-type: project)
         tags: someothertag, smoke, flaky # Coma separated list of tags. Only traces with those tags would be run (by default runs all traces)"
-
+        build-timeout-seconds: 20
+        
     - name: Check Trace execution result
       env:
         BUILD_ID: ${{ steps.executeTrace.outputs.id }}
