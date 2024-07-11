@@ -28,7 +28,7 @@ jobs:
         #base-url: https://de.wikipedia.org/ # baseUrl to execute against (defaults to the project baseUrl)"
 
         # Project Only Optional (only if trigger-type: project)
-        # tags: someothertag, smoke, flaky # Coma separated list of tags. Only traces with those tags would be run (by default runs all traces)"
+        tags: flaky # Coma separated list of tags. Only traces with those tags would be run (by default runs all traces)"
         build-timeout-seconds: 120
         
     - name: Check Trace execution result
