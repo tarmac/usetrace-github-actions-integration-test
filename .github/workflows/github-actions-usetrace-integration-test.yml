@@ -17,12 +17,14 @@ jobs:
       uses: tarmac/usetrace-github-action@v1
       with:
         # Required parameters
-        trigger-type: ${{ vars.USETRACE_TRIGGER_TYPE }} # Options: 'trace' or 'project')"
-        trigger-id: ${{ vars.USETRACE_TRIGGER_ID }} # Id of the build to trigger.
-        # trigger-id: ZoMdcx6weAAXXca7VhlygnfF8lGO5Pmo # Id of a test Project
+        trigger-type: project # Options: 'trace' or 'project')"
+        trigger-id: ZoMdcx6weAAXXca7VhlygnfF8lGO5Pmo # Id of a test Project
+        
+        #trigger-type: ${{ vars.USETRACE_TRIGGER_TYPE }} # Options: 'trace' or 'project')"
+        #trigger-id: ${{ vars.USETRACE_TRIGGER_ID }} # Id of the build to trigger.
         
         # Optional parameters
-        browsers: chrome, firefox 127 # Coma separated list of browsers (ex: 'chrome, firefox'). You can specify a version of the browser this way: 'chrome 126, internet explorer 11' (version must be specified for internet explorer)
+        browsers: chrome, firefox # Coma separated list of browsers (ex: 'chrome, firefox').
         #base-url: https://de.wikipedia.org/ # baseUrl to execute against (defaults to the project baseUrl)"
 
         # Project Only Optional (only if trigger-type: project)
