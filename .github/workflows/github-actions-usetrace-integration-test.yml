@@ -24,11 +24,12 @@ jobs:
         #trigger-id: ${{ vars.USETRACE_TRIGGER_ID }} # Id of the build to trigger.
         
         # Optional parameters
-        browsers: chrome, firefox # Coma separated list of browsers (ex: 'chrome, firefox').
+        browsers: chrome # Coma separated list of browsers (ex: 'chrome, firefox').
         base-url: https://ja.wikipedia.org/ # baseUrl to execute against (defaults to the project baseUrl)"
-
+        
         # Project Only Optional (only if trigger-type: project)
         # tags: flaky # Coma separated list of tags. Only traces with those tags would be run (by default runs all traces)"
+        fail-on-failed-traces: false # We tell the action that we don't want the workflow to fail if some Trace fails. That way you can handle the failures with your logic.
         build-timeout-seconds: 120
         
     - name: Check Trace execution result
