@@ -25,7 +25,7 @@ jobs:
         
         # Optional parameters
         browsers: chrome, firefox # Coma separated list of browsers (ex: 'chrome, firefox').
-        base-url: https://de.wikipedia.org/ # baseUrl to execute against (defaults to the project baseUrl)"
+        base-url: https://ja.wikipedia.org/ # baseUrl to execute against (defaults to the project baseUrl)"
 
         # Project Only Optional (only if trigger-type: project)
         # tags: flaky # Coma separated list of tags. Only traces with those tags would be run (by default runs all traces)"
