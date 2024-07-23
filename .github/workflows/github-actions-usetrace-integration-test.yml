@@ -14,7 +14,7 @@ jobs:
 
     - name: Run Usetrace Trace and Wait for it to finish
       id: executeTrace
-      uses: tarmac/usetrace-github-action@v1
+      uses: usetrace/github-action@v1
       with:
         # Required parameters
         trigger-type: ${{ vars.USETRACE_TRIGGER_TYPE }} # Options: 'trace' or 'project')"
