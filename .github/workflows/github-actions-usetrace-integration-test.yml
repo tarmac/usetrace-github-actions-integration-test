@@ -16,7 +16,7 @@ jobs:
       with:
         # Required parameters
         trigger-type: trace # Options: 'trace' or 'project')"
-        trigger-id: ZpZ0IAQK1QAXhucMJKALXkvOEubUFFHj # Id of a test Project
+        trigger-id: ZpqYOLTvOgAYl8XL_dvnQpjgb96Y6t6_ # Id of a test Project
         
     - name: Check Trace execution result
       env:
