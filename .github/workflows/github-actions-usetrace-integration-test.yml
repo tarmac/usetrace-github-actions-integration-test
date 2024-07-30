@@ -1,5 +1,4 @@
 name: Invoke a Trace on Usetrace on push to development branch
-
 on:
   push:
     branches:
@@ -11,33 +10,16 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
     - name: Run Usetrace Trace and Wait for it to finish
       id: executeTrace
       uses: usetrace/github-action@v1
       with:
         # Required parameters
-        trigger-type: ${{ vars.USETRACE_TRIGGER_TYPE }} # Options: 'trace' or 'project')"
-        trigger-id: ${{ vars.USETRACE_TRIGGER_ID }} # Id of the build to trigger.
-        
-        # Optional parameters
-        browsers: chrome # Coma separated list of browsers (ex: 'chrome, firefox').
-        
-        # Project Only Optional (only if trigger-type: project)
-        # tags: flaky # Coma separated list of tags. Only traces with those tags would be run (by default runs all traces)"
-        
-        fail-on-failed-traces: false # We tell the action that we don't want the workflow to fail if some Trace fails. That way you can handle the failures with your logic.
-        build-timeout-seconds: 120
+        trigger-type: trace # Options: 'trace' or 'project')"
+        trigger-id: ZpZ0IAQK1QAXhucMJKALXkvOEubUFFHj # Id of a test Project
         
     - name: Check Trace execution result
       env:
-        BUILD_ID: ${{ steps.executeTrace.outputs.id }}
-        STATUS: ${{ steps.executeTrace.outputs.status }}
-        RESULT_REQUEST: ${{ steps.executeTrace.outputs.request }}
-        RESULT_FINISH: ${{ steps.executeTrace.outputs.finish }}
-        RESULT_PASS: ${{ steps.executeTrace.outputs.pass }}
-        RESULT_FAIL: ${{ steps.executeTrace.outputs.fail }}
-        RESULT_REPORT: ${{ steps.executeTrace.outputs.report }}
+        RESULT_REPORT: $
       run: |
-        echo "Trace result: $BUILD_ID $STATUS $RESULT_REQUEST $RESULT_FINISH $RESULT_PASS $RESULT_FAIL "
-        echo "REPORT: $RESULT_REPORT "
+        echo "REPORT: $RESULT_REPORT"
