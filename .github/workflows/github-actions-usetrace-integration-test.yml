@@ -18,7 +18,7 @@ jobs:
         trigger-type: trace # Options: 'trace' or 'project')"
         trigger-id: aJEgVLmyrwAXs11X2AbjZgZkt0wdfJ5G # Id of a Trace or a Project
         wait-for-result: true
-        usetrace-api-key: not-real-apikey
+        usetrace-api-key: d84b84a5da9310e22bf3e28b
         
     - name: Check Trace execution result
       env:
