@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v4
     - name: Run Usetrace Trace and Wait for it to finish
       id: executeTrace
-      uses: usetrace/github-action@v1
+      uses: usetrace/github-action@v2
       with:
         # Required parameters
         trigger-type: trace # Options: 'trace' or 'project')"
