@@ -1,1 +1,2 @@
 # This file has the sole purpose of triggering Usetrace integration with GitHub Actions
+.
